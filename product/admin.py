@@ -5,6 +5,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'price' , 'created_at')
     search_fields = ('name', 'category')
     list_filter = ('category', 'created_at')
-    ordering = ('created_at')
+    ordering = ['created_at']
     
 admin.site.register(product ,ProductAdmin)

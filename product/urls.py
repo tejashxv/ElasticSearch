@@ -7,4 +7,5 @@ urlpatterns = [
     path('product/<id>/', views.ProductDetailAPI.as_view(), name='product_detail'),
     path('', views.shop, name='shop'),
     path('products/<id>', views.product_detail, name='shop'),
+    path('search/', views.search_product, name='search_product'),
 ]

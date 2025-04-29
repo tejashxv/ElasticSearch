@@ -74,7 +74,7 @@ def search_product(request):
                         'created_at' : hit.created_at,
                 })
             data['products'] = products
-            print(data['products'])
+            
             # return JsonResponse(data, safe=False)
         return render(request, 'search.html', {'product': data['products'], 'search': request.GET.get('q')})
 

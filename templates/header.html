@@ -61,7 +61,7 @@
           if (!query) return;
       
           try {
-            const response = await fetch(`http://127.0.0.1:8002/products/?q=${encodeURIComponent(query)}`);
+            const response = await fetch(`http://127.0.0.1:8000/products/?q=${encodeURIComponent(query)}`);
             const data = await response.json();
       
             data.suggestions.forEach(item => {
@@ -72,6 +72,9 @@
               li.addEventListener("click", () => {
                 input.value = item;
                 list.innerHTML = "";
+              
+                // Automatically redirect to search results
+                window.location.href = `/search/?q=${encodeURIComponent(item)}`;
               });
       
               list.appendChild(li);

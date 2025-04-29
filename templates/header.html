@@ -40,13 +40,54 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
               </li>
             </ul>
-            <form class="d-flex" method="GET">
-              <input class="form-control me-2" type="search" placeholder="Search" name="q" value="{{search}}" aria-label="Search">
+            <form autocomplete="off" class="d-flex" method="GET">
+              <input class="form-control me-2" type="search" placeholder="Search" name="q" id="myInput" value="{{search}}" aria-label="Search">
+              <ul id="autocomplete-list" class="list-group position-absolute w-25 z-3" style="top: 58px; left: auto;"></ul>
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+
           </div>
         </div>
       </nav>
 
+      <script>
+        const input = document.getElementById("myInput");
+        const list = document.getElementById("autocomplete-list");
+      
+        input.addEventListener("input", async () => {
+          const query = input.value.trim();
+          list.innerHTML = "";
+      
+          if (!query) return;
+      
+          try {
+            const response = await fetch(`http://127.0.0.1:8002/products/?q=${encodeURIComponent(query)}`);
+            const data = await response.json();
+      
+            data.suggestions.forEach(item => {
+              const li = document.createElement("li");
+              li.classList.add("list-group-item", "list-group-item-action");
+              li.textContent = item;
+      
+              li.addEventListener("click", () => {
+                input.value = item;
+                list.innerHTML = "";
+              });
+      
+              list.appendChild(li);
+            });
+          } catch (error) {
+            console.error("Autocomplete API error:", error);
+          }
+        });
+      
+        // Close on outside click
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.innerHTML = "";
+          }
+        });
+      </script>
+      
 </body>
 </html>
